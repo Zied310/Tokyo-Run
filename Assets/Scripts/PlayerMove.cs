@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(CapsuleCollider))]
 public class PlayerMove : MonoBehaviour
 {
-    public float moveSpeed = 3;
+    public float moveSpeed = 5;
     public float leftrightSpeed = 4;
     public Rigidbody rb;
     public Animator animator;
@@ -13,6 +13,7 @@ public class PlayerMove : MonoBehaviour
     public bool grounded;
     float startColliderHeight = 0;
     private CapsuleCollider collider;
+    public static bool canMove = false;
 
     void Start()
     {
@@ -20,15 +21,17 @@ public class PlayerMove : MonoBehaviour
         collider = GetComponent<CapsuleCollider>();
         startColliderHeight = collider.height;
     }
-    private void FixedUpdate() {
+    private void Update() {
         Grounded();
         Jump();
         Slide();
         Move();     
     }
     private void Jump(){
-        if(Input.GetKey(KeyCode.Space) && this.grounded){
-            this.rb.AddForce(Vector3.up * 1.2f, ForceMode.Impulse);
+        if(canMove== true){
+            if(Input.GetKeyDown(KeyCode.Space) && this.grounded){
+                this.rb.AddForce(Vector3.up * 250);
+            }
         }
     }
     private void Grounded(){
@@ -41,12 +44,14 @@ public class PlayerMove : MonoBehaviour
         this.animator.SetBool("jump",!this.grounded);
     } 
     private void Slide(){
-        if(Input.GetKeyDown(KeyCode.DownArrow) && this.grounded){
-            this.animator.SetBool("slide",true);
+        if(canMove== true){
+            if(Input.GetKeyDown(KeyCode.DownArrow) && this.grounded){
+                this.animator.SetBool("slide",true);
 
-        }
-        else{
-            this.animator.SetBool("slide",false);
+            }
+            else{
+                this.animator.SetBool("slide",false);
+            }
         }
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         if(stateInfo.IsName("Slide"))
@@ -65,15 +70,17 @@ public class PlayerMove : MonoBehaviour
     private void Move()
     {
         transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed, Space.World);
-        if(Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.LeftArrow)){
-            if(this.gameObject.transform.position.x > LevelBoundary.leftside){
-                transform.Translate(Vector3.left * Time.deltaTime * leftrightSpeed);
+        if(canMove == true){
+            if(Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.LeftArrow)){
+                if(this.gameObject.transform.position.x > LevelBoundary.leftside){
+                    transform.Translate(Vector3.left * Time.deltaTime * leftrightSpeed);
+                }
             }
-        }
 
-        if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)){
-            if(this.gameObject.transform.position.x < LevelBoundary.rightside){
-                transform.Translate(Vector3.left * Time.deltaTime * leftrightSpeed * -1);
+            if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)){
+                if(this.gameObject.transform.position.x < LevelBoundary.rightside){
+                    transform.Translate(Vector3.left * Time.deltaTime * leftrightSpeed * -1);
+                }
             }
         }
     }
