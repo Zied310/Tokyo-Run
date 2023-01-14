@@ -367,6 +367,7 @@
 "Assets/Scripts/LevelBoundary.cs"
 "Assets/Scripts/LevelDistance.cs"
 "Assets/Scripts/LevelStarter.cs"
+"Assets/Scripts/MainMenu.cs"
 "Assets/Scripts/ObstacleCollision.cs"
 "Assets/Scripts/PlayerMove.cs"
 "Assets/ZRNAssets/Cars/Scripts/AICarMove.cs"
