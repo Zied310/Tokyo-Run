@@ -44,9 +44,8 @@ public class PlayerMove : MonoBehaviour
         this.animator.SetBool("jump",!this.grounded);
     } 
     private void Slide(){
-        if(canMove== true){
-            if(Input.GetKeyDown(KeyCode.DownArrow) && this.grounded){
-                this.animator.SetBool("slide",true);
+        if(Input.GetKey(KeyCode.DownArrow) && this.grounded){
+            this.animator.SetBool("slide",true);
 
             }
             else{
